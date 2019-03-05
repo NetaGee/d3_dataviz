@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Reverse Scatterplot</title>
+        <script type="text/javascript" src="https://d3js.org/d3.v4.js"></script>
+        <style type="text/css">
+    		</style>
+    </head>
+    <body>
+      <div class = "box">
+        <div id="plot"></div>
+      </div>
+        <script type="text/javascript">
+
+            // setting the height and width
+            var padding = 100;
+            var svg_w = 800;
+            var svg_h = 700;
+
+            var graph_w = svg_w - padding*2;
+            var graph_h = svg_h - padding*2
+
+            // reading in the data file
+            d3.json(("cpsgen.json"), function(error, data) {
+                if (error) {
+                  console.log("error");
+                } else {
+                  console.log(data)
+                  dataset = data
+                  makeScatterplot();
+                }
+              });
+
+
+            function makeScatterplot() {
+            // creating the SVG element
+      			var svg = d3.select("#plot")
+      						.append("svg")
+      						.attr("width", svg_w)
+      						.attr("height", svg_h);
+
+            var g = svg.append('g')
+                  .attr("transform", "translate(" + padding + "," + padding +")");
+
+                  // setting up dynamic x and y scales
+                  var xScale = d3.scaleLinear()
+                          .domain([d3.min(dataset, function(d) { return d.weekly_earn;}),
+                              d3.max(dataset, function(d) {
+                                      return d.weekly_earn;})])
+                                 .range([0, graph_w])
+                                 .nice(); //expands all ends to nearest round value
+
+                  var yScale = d3.scaleLinear()
+                                 .domain([d3.min(dataset, function(d) {
+                                                 return d.weekly_earn;}),
+                                         d3.max(dataset, function(d) {
+                                                 return d.weekly_earn;})])
+                                 .range([graph_h, 0]);
+
+
+            // adding circle shapes to our svg
+            var circles = g.selectAll("circle") //selects all circles in the DOM (empty selection representing the circles that will soon exist)
+      			                .data(dataset) // counts and parses our data values
+      			                .enter() // creates a new placeholder element
+      			                .append("circle") // takes empty placeholder selection created by enter() and appends a circle element into the DOM
+      			                .attr("cx", function(d) {
+      			   		                 return xScale(d.weekly_earn);
+      			                        })
+      			                .attr("cy", function(d) {
+      			   		                 return yScale(d.occupation);
+      			                        })
+      			                .attr("r", 15);
+                            //.style("fill", function(d){
+                            //  if(d.Race == "White"){
+                            //    return "#ffc100"
+                            //  }if(d.Race == "Asian"){
+                            //    return "#19a0e1"
+                            //  }
+                            //  if(d.Race == "Black"){
+                            //    return "#8f65bb"
+                            //  }
+                            //  else {
+                            //    return "#ea68aa" }
+                            //  });
+                            //.classed("", true); // adds a class
+                          //  .attr("r", function(d) { // to make the dot based on NW size
+                   			  // 		return Math.sqrt(d.NW/250);
+                   			  // });
+
+          // setting up the x and y axis
+          var xAxis = d3.axisBottom()
+                        .scale(xScale)
+                        .ticks(5);
+
+          var yAxis = d3.axisLeft()
+                        .scale(yScale)
+                        .ticks(10);
+
+          // calling the axis to put it "on top" of the SVG
+          svg.append("g") // an invisible group element
+            .call(xAxis)
+            .attr("transform", "translate(" + padding + "," + (graph_h + padding) + ")");
+
+          svg.append("g") // an invisible group element
+            .call(yAxis)
+            .attr("transform", "translate(" + padding + "," + padding + ")");
+
+
+          // Use d3.append to add two SVG rect elements and two SVG text elements as a legend for the change in color.
+
+          // var legendWhite = svg.append("rect")
+          //                      .attr("x", w-100)
+          //                      .attr("y", h-100)
+          //                      .attr("width", 30)
+          //                      .attr("height", 15)
+          //                      .attr("fill", "#ffc100");
+          //
+          // var legendAsian = svg.append("rect")
+          //                      .attr("x", w-100)
+          //                      .attr("y", h-120)
+          //                      .attr("width", 30)
+          //                      .attr("height", 15)
+          //                      .attr("fill", "#19a0e1");
+          //
+          // var legendBlack = svg.append("rect")
+          //                      .attr("x", w-100)
+          //                      .attr("y", h-140)
+          //                      .attr("width", 30)
+          //                      .attr("height", 15)
+          //                      .attr("fill", "#8f65bb")
+          //
+          // var legendLatino = svg.append("rect")
+          //                      .attr("x", w-100)
+          //                      .attr("y", h-160)
+          //                      .attr("width", 30)
+          //                      .attr("height", 15)
+          //                      .attr("fill", "#ea68aa")
+          //
+          // var textWhite = svg.append("text")
+          //                    .attr("x", w-60)
+          //                    .attr("y", h-87)
+          //                    .attr("width", 30)
+          //                    .attr("height", 15)
+          //                    .text("White")
+          //                    .style("text-anchor", "start");
+          //
+          // var textAsian = svg.append("text")
+          //                    .attr("x", w-60)
+          //                    .attr("y", h-107)
+          //                    .attr("width", 30)
+          //                    .attr("height", 15)
+          //                    .text("Asian")
+          //                    .style("text-anchor", "start");
+          //
+          // var textBlack = svg.append("text")
+          //                    .attr("x", w-60)
+          //                    .attr("y", h-127)
+          //                    .attr("width", 30)
+          //                    .attr("height", 15)
+          //                    .text("Black")
+          //                    .style("text-anchor", "start");
+          //
+          // var textLatino = svg.append("text")
+          //                     .attr("x", w-60)
+          //                     .attr("y", h-147)
+          //                     .attr("width", 30)
+          //                     .attr("height", 15)
+          //                     .text("Latino")
+          //                     .style("text-anchor", "start");
+
+
+
+          // Use d3.append to add SVG text elements for the graph title, subtitle, axis labels, and data sourcing.
+
+          //var title = svg.append("text")
+          //                .attr("x", 50)
+          //                .attr("y", 40)
+          //                .text("Earnings and Employees by Race");
+
+          //var subtitle = svg.append("text")
+          //                  .attr("x", 50)
+          //                  .attr("y", 60)
+          //                  .text("Black and Latino groups earn disproportionally less than White and Asian groups");
+
+          // var xTitle = svg.append("text")
+          //                 .attr("x", (w)/2)
+          //                 .attr("y", h-30)
+          //                 .text("Median Weekly Earnings ($)")
+          //                 .style("text-anchor", "middle");
+          //
+          // var yTitle = svg.append("text")
+          //                 .attr("x", padding)
+          //                 .attr("y", h/2)
+          //                 .text("Occupation")
+          //                 .style("text-anchor", "end")
+          //                 .attr("transform", "rotate(-90, 0, 210)");
+          //
+          // var source = svg.append("text")
+          //                 .attr("x", w/2)
+          //                 .attr("y", h-5)
+          //                 .text("Source: Bureau of Labor Statistics, Current Population Survey")
+          //                 .style("text-anchor", "start");
+
+            }
+
+        </script>
+    </body>
+</html>
