@@ -1,0 +1,128 @@
+[
+  {
+    "occupation": "Management",
+    "workers": 13477,
+    "weekly_earn": 1429,
+    "X__4": 7754,
+    "X__5": 1585,
+    "X__6": 5724,
+    "X__7": 1236
+  },
+  {
+    "occupation": "Business and Financial Operations",
+    "workers": 6385,
+    "weekly_earn": 1216,
+    "X__4": 2914,
+    "X__5": 1383,
+    "X__6": 3471,
+    "X__7": 1105
+  },
+  {
+    "occupation": "Computer and Mathematical",
+    "workers": 4755,
+    "weekly_earn": 1539,
+    "X__4": 3571,
+    "X__5": 1604,
+    "X__6": 1184,
+    "X__7": 1345
+  },
+  {
+    "occupation": "Architecture and Engineering",
+    "workers": 2994,
+    "weekly_earn": 1484,
+    "X__4": 2541,
+    "X__5": 1528,
+    "X__6": 453,
+    "X__7": 1259
+  },
+  {
+    "occupation": "Life, Physical, and Social Science",
+    "workers": 1308,
+    "weekly_earn": 1270,
+    "X__4": 733,
+    "X__5": 1357,
+    "X__6": 575,
+    "X__7": 1156
+  },
+  {
+    "occupation": "Community and Social Service",
+    "workers": 2223,
+    "weekly_earn": 913,
+    "X__4": 754,
+    "X__5": 984,
+    "X__6": 1469,
+    "X__7": 886
+  },
+  {
+    "occupation": "Legal",
+    "workers": 1466,
+    "weekly_earn": 1467,
+    "X__4": 651,
+    "X__5": 1910,
+    "X__6": 815,
+    "X__7": 1243
+  },
+  {
+    "occupation": "Education, Training, and Library",
+    "workers": 7166,
+    "weekly_earn": 1002,
+    "X__4": 1915,
+    "X__5": 1235,
+    "X__6": 5251,
+    "X__7": 934
+  },
+  {
+    "occupation": "Art, Design, Entertainment, Sports, and Media",
+    "workers": 1880,
+    "weekly_earn": 1086,
+    "X__4": 1052,
+    "X__5": 1151,
+    "X__6": 828,
+    "X__7": 997
+  },
+  {
+    "occupation": "Healthcare",
+    "workers": 7154,
+    "weekly_earn": 1140,
+    "X__4": 1800,
+    "X__5": 1383,
+    "X__6": 5354,
+    "X__7": 1078
+  },
+  {
+    "occupation": "Service",
+    "workers": 16288,
+    "weekly_earn": 569,
+    "X__4": 7948,
+    "X__5": 641,
+    "X__6": 8340,
+    "X__7": 511
+  },
+  {
+    "occupation": "Sales and Office",
+    "workers": 23714,
+    "weekly_earn": 742,
+    "X__4": 9548,
+    "X__5": 846,
+    "X__6": 14166,
+    "X__7": 696
+  },
+  {
+    "occupation": "Natural Resources, Construction, and Maintenance",
+    "workers": 11546,
+    "weekly_earn": 824,
+    "X__4": 11030,
+    "X__5": 834,
+    "X__6": 516,
+    "X__7": 638
+  },
+  {
+    "occupation": "Production, Transportation, and Material Moving",
+    "workers": 15210,
+    "weekly_earn": 707,
+    "X__4": 11932,
+    "X__5": 762,
+    "X__6": 3279,
+    "X__7": 561
+  }
+]
