@@ -8,9 +8,7 @@
     		</style>
     </head>
     <body>
-      <div class = "box">
-        <div id="plot"></div>
-      </div>
+      <h1 "font-family = verdana" > Title </h1>
         <script type="text/javascript">
 
             // setting the height and width
@@ -19,21 +17,29 @@
             var svg_h = 700;
 
             var graph_w = svg_w - padding*2;
-            var graph_h = svg_h - padding*2
+            var graph_h = svg_h - padding*2;
 
             // reading in the data file
             d3.json(("cpsgen.json"), function(error, data) {
                 if (error) {
                   console.log("error");
                 } else {
-                  console.log(data)
-                  dataset = data
-                  makeScatterplot();
+                  makeGenderScatterplot(data);
+                  console.log(data);
                 }
               });
 
+          function makeScatterplot(scatter_data) {
+            console.log(scatter_data)
+            // const yDomain = Object.keys(scatter_data.reduce((acc, {occupation}) => {
+            //   acc[occupation] = true;
+            //   return acc;
+            // }, {}));
 
-            function makeScatterplot() {
+            const yDomain = scatter_data.sort((a, b) => {
+              return a.weekly_earn - b.weekly_earn;
+            }).map(d => d.occupation);
+
             // creating the SVG element
       			var svg = d3.select("#plot")
       						.append("svg")
@@ -43,167 +49,200 @@
             var g = svg.append('g')
                   .attr("transform", "translate(" + padding + "," + padding +")");
 
-                  // setting up dynamic x and y scales
-                  var xScale = d3.scaleLinear()
-                          .domain([d3.min(dataset, function(d) { return d.weekly_earn;}),
-                              d3.max(dataset, function(d) {
-                                      return d.weekly_earn;})])
-                                 .range([0, graph_w])
-                                 .nice(); //expands all ends to nearest round value
+            // setting up dynamic x and y scales
+            var xScale = d3.scaleLinear()
+                    .domain([d3.min(scatter_data, function(d) { return d.weekly_earn;})-100,
+                            d3.max(scatter_data, function(d) { return d.weekly_earn;})+100])
+                    .range([0, graph_w]);
 
-                  var yScale = d3.scaleLinear()
-                                 .domain([d3.min(dataset, function(d) {
-                                                 return d.weekly_earn;}),
-                                         d3.max(dataset, function(d) {
-                                                 return d.weekly_earn;})])
-                                 .range([graph_h, 0]);
+            var yScale = d3.scaleBand()
+                    .domain(yDomain)
+                    .range([graph_h, 0])
+                    .padding([1]);
 
+            var gridlines = g.selectAll("line")
+                    .data(scatter_data)
+                    .enter()
+                    .append("line")
+                    .attr("x1", 0)
+                    .attr("y1", function(d) { return yScale(d.occupation);})
+                    .attr("x2", function(d) { return xScale(d.weekly_earn);})
+                    .attr("y2", function(d) { return yScale(d.occupation);})
+                    .attr("stroke-width", 1)
+                    .style("stroke", "gray")
+                    .style("stroke-dasharray", ("1, 1.5"));
 
-            // adding circle shapes to our svg
-            var circles = g.selectAll("circle") //selects all circles in the DOM (empty selection representing the circles that will soon exist)
-      			                .data(dataset) // counts and parses our data values
-      			                .enter() // creates a new placeholder element
-      			                .append("circle") // takes empty placeholder selection created by enter() and appends a circle element into the DOM
-      			                .attr("cx", function(d) {
-      			   		                 return xScale(d.weekly_earn);
-      			                        })
-      			                .attr("cy", function(d) {
-      			   		                 return yScale(d.occupation);
-      			                        })
-      			                .attr("r", 15);
-                            //.style("fill", function(d){
-                            //  if(d.Race == "White"){
-                            //    return "#ffc100"
-                            //  }if(d.Race == "Asian"){
-                            //    return "#19a0e1"
-                            //  }
-                            //  if(d.Race == "Black"){
-                            //    return "#8f65bb"
-                            //  }
-                            //  else {
-                            //    return "#ea68aa" }
-                            //  });
-                            //.classed("", true); // adds a class
-                          //  .attr("r", function(d) { // to make the dot based on NW size
-                   			  // 		return Math.sqrt(d.NW/250);
-                   			  // });
+            var circles = g.selectAll("circle")
+                    .data(scatter_data)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", function(d) { return xScale(d.weekly_earn);})
+                    .attr("cy", function(d) { return yScale(d.occupation);})
+                    .attr("r",function(d) { // to make the dot based on NW size
+             			   		return Math.sqrt(d.workers/60)
+                      })
+                    .style("fill", function(d){
+                     if(d.occupation == "Service"){
+                       return "#19a0e1"
+                     }if(d.occupation == "Natural Resources, Construction, and Maintenance"){
+                       return "#19a0e1"
+                     }if(d.occupation == "Production, Transportation, and Material Moving"){
+                       return "#19a0e1"
+                     }if(d.occupation == "Sales and Office"){
+                       return "#19a0e1"
+                     }
+                     else {
+                       return "#ffc100" }
+                     });;
 
           // setting up the x and y axis
           var xAxis = d3.axisBottom()
                         .scale(xScale)
-                        .ticks(5);
+                        .ticks(8)
+                        .tickSizeOuter(0)
+                        .tickSize(0);
 
           var yAxis = d3.axisLeft()
                         .scale(yScale)
-                        .ticks(10);
+                        .ticks(14)
+                        .tickSizeOuter(0)
+                        .tickSize(0);
 
           // calling the axis to put it "on top" of the SVG
           svg.append("g") // an invisible group element
             .call(xAxis)
-            .attr("transform", "translate(" + padding + "," + (graph_h + padding) + ")");
+            .attr("transform", "translate(" + padding + "," + (graph_h + padding) + ")")
+            .style("stroke-dasharray", ("1, 1.5"));
 
           svg.append("g") // an invisible group element
             .call(yAxis)
-            .attr("transform", "translate(" + padding + "," + padding + ")");
+            .attr("transform", "translate(" + padding + "," + padding + ")")
+            .style("stroke-dasharray", ("0, 10"));
 
-
-          // Use d3.append to add two SVG rect elements and two SVG text elements as a legend for the change in color.
-
-          // var legendWhite = svg.append("rect")
-          //                      .attr("x", w-100)
-          //                      .attr("y", h-100)
-          //                      .attr("width", 30)
-          //                      .attr("height", 15)
-          //                      .attr("fill", "#ffc100");
-          //
-          // var legendAsian = svg.append("rect")
-          //                      .attr("x", w-100)
-          //                      .attr("y", h-120)
-          //                      .attr("width", 30)
-          //                      .attr("height", 15)
-          //                      .attr("fill", "#19a0e1");
-          //
-          // var legendBlack = svg.append("rect")
-          //                      .attr("x", w-100)
-          //                      .attr("y", h-140)
-          //                      .attr("width", 30)
-          //                      .attr("height", 15)
-          //                      .attr("fill", "#8f65bb")
-          //
-          // var legendLatino = svg.append("rect")
-          //                      .attr("x", w-100)
-          //                      .attr("y", h-160)
-          //                      .attr("width", 30)
-          //                      .attr("height", 15)
-          //                      .attr("fill", "#ea68aa")
-          //
-          // var textWhite = svg.append("text")
-          //                    .attr("x", w-60)
-          //                    .attr("y", h-87)
-          //                    .attr("width", 30)
-          //                    .attr("height", 15)
-          //                    .text("White")
-          //                    .style("text-anchor", "start");
-          //
-          // var textAsian = svg.append("text")
-          //                    .attr("x", w-60)
-          //                    .attr("y", h-107)
-          //                    .attr("width", 30)
-          //                    .attr("height", 15)
-          //                    .text("Asian")
-          //                    .style("text-anchor", "start");
-          //
-          // var textBlack = svg.append("text")
-          //                    .attr("x", w-60)
-          //                    .attr("y", h-127)
-          //                    .attr("width", 30)
-          //                    .attr("height", 15)
-          //                    .text("Black")
-          //                    .style("text-anchor", "start");
-          //
-          // var textLatino = svg.append("text")
-          //                     .attr("x", w-60)
-          //                     .attr("y", h-147)
-          //                     .attr("width", 30)
-          //                     .attr("height", 15)
-          //                     .text("Latino")
-          //                     .style("text-anchor", "start");
-
-
-
-          // Use d3.append to add SVG text elements for the graph title, subtitle, axis labels, and data sourcing.
-
-          //var title = svg.append("text")
-          //                .attr("x", 50)
-          //                .attr("y", 40)
-          //                .text("Earnings and Employees by Race");
-
-          //var subtitle = svg.append("text")
-          //                  .attr("x", 50)
-          //                  .attr("y", 60)
-          //                  .text("Black and Latino groups earn disproportionally less than White and Asian groups");
-
-          // var xTitle = svg.append("text")
-          //                 .attr("x", (w)/2)
-          //                 .attr("y", h-30)
-          //                 .text("Median Weekly Earnings ($)")
-          //                 .style("text-anchor", "middle");
-          //
-          // var yTitle = svg.append("text")
-          //                 .attr("x", padding)
-          //                 .attr("y", h/2)
-          //                 .text("Occupation")
-          //                 .style("text-anchor", "end")
-          //                 .attr("transform", "rotate(-90, 0, 210)");
-          //
-          // var source = svg.append("text")
-          //                 .attr("x", w/2)
-          //                 .attr("y", h-5)
-          //                 .text("Source: Bureau of Labor Statistics, Current Population Survey")
-          //                 .style("text-anchor", "start");
 
             }
 
+          function makeGenderScatterplot(scatter_data) {
+            console.log(scatter_data)
+            // const yDomain = Object.keys(scatter_data.reduce((acc, {occupation}) => {
+            //   acc[occupation] = true;
+            //   return acc;
+            // }, {}));
+
+            const yDomain = scatter_data.sort((a, b) => {
+              return a.weekly_earn - b.weekly_earn;
+            }).map(d => d.occupation);
+
+            // creating the SVG element
+      			var svg = d3.select("#plot")
+      						.append("svg")
+      						.attr("width", svg_w)
+      						.attr("height", svg_h);
+
+            var g = svg.append('g')
+                  .attr("transform", "translate(" + padding + "," + padding +")");
+
+            // setting up dynamic x and y scales
+            var xScale = d3.scaleLinear()
+                    .domain([d3.min(scatter_data, function(d) { return d.X__7;})-100,
+                            d3.max(scatter_data, function(d) { return d.X__5;})+100])
+                    .range([0, graph_w]);
+
+            var yScale = d3.scaleBand()
+                    .domain(yDomain)
+                    .range([graph_h, 0])
+                    .padding([1]);
+
+            var gridlines = g.selectAll("line")
+                    .data(scatter_data)
+                    .enter()
+                    .append("line")
+                    .attr("x1", 0)
+                    .attr("y1", function(d) { return yScale(d.occupation);})
+                    .attr("x2", function(d) { return xScale(d.X__7);})
+                    .attr("y2", function(d) { return yScale(d.occupation);})
+                    .attr("stroke-width", 1)
+                    .style("stroke", "gray")
+                    .style("stroke-dasharray", ("1, 1.5"));
+
+            var lines = g.selectAll("lines")
+                    .data(scatter_data)
+                    .enter()
+                    .append("line")
+                    .attr("x1", function(d) { return xScale(d.X__7);})
+                    .attr("y1", function(d) { return yScale(d.occupation);})
+                    .attr("x2", function(d) { return xScale(d.X__5);})
+                    .attr("y2", function(d) { return yScale(d.occupation);})
+                    .attr("stroke-width", 1)
+                    .style("stroke", "gray");
+
+             var female_circles = g.selectAll()
+                     .data(scatter_data)
+                     .enter()
+                     .append("circle")
+                     .attr("cx", function(d) { return xScale(d.X__7);})
+                     .attr("cy", function(d) { return yScale(d.occupation);})
+                     .attr("r",function(d) { // to make the dot based on NW size
+              			   		return Math.sqrt(d.X__6/60)
+                       })
+                     .style("fill", "#8f65bb");
+
+             var male_circles = g.selectAll()
+                     .data(scatter_data)
+                     .enter()
+                     .append("circle")
+                     .attr("cx", function(d) { return xScale(d.X__5);})
+                     .attr("cy", function(d) { return yScale(d.occupation);})
+                     .attr("r",function(d) { // to make the dot based on NW size
+              			   		return Math.sqrt(d.X__4/60)
+                       })
+                     .style("fill", "#ffc100");
+
+             var circles = g.selectAll()
+                     .data(scatter_data)
+                     .enter()
+                     .append("circle")
+                     .attr("cx", function(d) { return xScale(d.weekly_earn);})
+                     .attr("cy", function(d) { return yScale(d.occupation);})
+                     .attr("r",2)
+                     .style("fill", "gray");
+
+            // setting up the x and y axis
+            var xAxis = d3.axisBottom()
+                          .scale(xScale)
+                          .ticks(8)
+                          .tickSizeOuter(0)
+                          .tickSize(0);
+
+            var yAxis = d3.axisLeft()
+                          .scale(yScale)
+                          .ticks(14)
+                          .tickSizeOuter(0)
+                          .tickSize(0);
+
+            // calling the axis to put it "on top" of the SVG
+            svg.append("g") // an invisible group element
+              .call(xAxis)
+              .attr("transform", "translate(" + padding + "," + (graph_h + padding) + ")")
+              .style("stroke-dasharray", ("1, 1.5"))
+              .style("stroke", "gray");
+
+            svg.append("g") // an invisible group element
+              .call(yAxis)
+              .attr("transform", "translate(" + padding + "," + padding + ")")
+              .style("stroke-dasharray", ("0, 10"));
+
+
+              }
+
         </script>
+
+        <div class = "box" style="text-align:center">
+          <button type="button"
+                  onclick="makeScatterplot()" >By Occupation!</button>
+          <button type="button"
+                  onclick="makeGenderScatterplot()" >By Gender!</button>
+          <div id="plot" style="text-align:center"></div>
+        </div>
     </body>
 </html>
