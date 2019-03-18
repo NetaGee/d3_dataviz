@@ -11,3 +11,15 @@ div.tooltip {
     border-radius: 8px;
     pointer-events: none;
 }
+
+text.axes {
+    font: 13px Verdana;
+}
+
+text.occ_labels {
+    font: 13px Verdana;
+}
+
+text.gen_labels {
+    font: 13px Verdana;
+}
