@@ -12,7 +12,7 @@
               .attr("height", svg_h);
 
         var g = svg.append('g')
-              .attr("transform", "translate(" + padding + "," + padding +")");
+              .attr("transform", "translate(" + (padding+150) + "," + padding +")");
 
         // setting up dynamic x and y scales
         var xScale = d3.scaleLinear()
@@ -142,7 +142,7 @@
         // calling the axis to put it "on top" of the SVG
         svg.append("g") // an invisible group element
           .call(xAxis)
-          .attr("transform", "translate(" + padding + "," + (graph_h + padding) + ")")
+          .attr("transform", "translate(" + (padding+150) + "," + (graph_h + padding) + ")")
           // .style("stroke", "gray")
           .style("stroke-dasharray", ("1, 1.5"));
 
@@ -154,7 +154,7 @@
 
         svg.append("g") // an invisible group element
           .call(yAxis)
-          .attr("transform", "translate(" + padding + "," + padding + ")")
+          .attr("transform", "translate(" + (150+padding) + "," + padding + ")")
           .style("stroke-dasharray", ("0, 10"));
 
         svg.append("text") // an invisible group element
