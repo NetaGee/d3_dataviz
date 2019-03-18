@@ -23,3 +23,12 @@ text.occ_labels {
 text.gen_labels {
     font: 13px Verdana;
 }
+
+.box.showplot1 #plot2{
+  display:none;
+
+}
+.box.showplot2 #plot1{
+  display:none;
+
+}
