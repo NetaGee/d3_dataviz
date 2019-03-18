@@ -18,8 +18,8 @@
             .attr("height", svg_h);
 
       var g = svg.append('g')
-            .attr("transform", "translate(" + padding + "," + padding +")");
-
+            .attr("transform", "translate(" + (padding + 150) + "," + padding +")");
+            console.log('insanity')
       // setting up dynamic x and y scales
       var xScale = d3.scaleLinear()
               .domain([d3.min(scatter_data, function(d) { return d.weekly_earn;})-100,
@@ -109,18 +109,18 @@
         // calling the axis to put it "on top" of the SVG
         svg.append("g") // an invisible group element
           .call(xAxis)
-          .attr("transform", "translate(" + padding + "," + (graph_h + padding) + ")")
+          .attr("transform", "translate(" + (padding + 150) + "," + (graph_h + padding) + ")")
           .style("stroke-dasharray", ("1, 1.5"));
 
         svg.append("text") // an invisible group element
           .attr("text-anchor", "middle")
           .attr("class", "axes")
-          .attr("transform", "translate("+ (svg_w/2) +","+(svg_h-(padding/1.5))+")")
+          .attr("transform", "translate("+ (padding + svg_w/2) +","+(svg_h-(padding/1.5))+")")
           .text("Median Weekly Earnings ($)");
 
         svg.append("g") // an invisible group element
           .call(yAxis)
-          .attr("transform", "translate(" + padding + "," + padding + ")")
+          .attr("transform", "translate(" + (150 + padding) + "," + padding + ")")
           .style("stroke-dasharray", ("0, 10"));
 
         svg.append("text") // an invisible group element
