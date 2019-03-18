@@ -146,10 +146,30 @@
           // .style("stroke", "gray")
           .style("stroke-dasharray", ("1, 1.5"));
 
+        svg.append("text") // an invisible group element
+          .attr("text-anchor", "middle")
+          .attr("class", "axes")
+          .attr("transform", "translate("+ (svg_w/2) +","+(svg_h-(padding/1.5))+")")
+          .text("Median Weekly Earnings ($)");
+
         svg.append("g") // an invisible group element
           .call(yAxis)
           .attr("transform", "translate(" + padding + "," + padding + ")")
           .style("stroke-dasharray", ("0, 10"));
+
+        svg.append("text") // an invisible group element
+          .attr("text-anchor", "middle")
+          .attr("class", "gen_labels")
+          .attr("transform", "translate("+ (svg_w/2+179) +","+(padding+38)+")")
+          .text("Male")
+          .style("fill", "#ffc100");
+
+        svg.append("text") // an invisible group element
+          .attr("text-anchor", "middle")
+          .attr("class", "gen_labels")
+          .attr("transform", "translate("+ (svg_w/2+15) +","+(padding+38)+")")
+          .text("Female")
+          .style("fill", "#8f65bb");
 
 
           }
