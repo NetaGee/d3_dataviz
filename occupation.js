@@ -112,10 +112,30 @@
           .attr("transform", "translate(" + padding + "," + (graph_h + padding) + ")")
           .style("stroke-dasharray", ("1, 1.5"));
 
+        svg.append("text") // an invisible group element
+          .attr("text-anchor", "middle")
+          .attr("class", "axes")
+          .attr("transform", "translate("+ (svg_w/2) +","+(svg_h-(padding/1.5))+")")
+          .text("Median Weekly Earnings ($)");
+
         svg.append("g") // an invisible group element
           .call(yAxis)
           .attr("transform", "translate(" + padding + "," + padding + ")")
           .style("stroke-dasharray", ("0, 10"));
+
+        svg.append("text") // an invisible group element
+          .attr("text-anchor", "middle")
+          .attr("class", "occ_labels")
+          .attr("transform", "translate("+ (svg_w/2-20) +","+(svg_h-padding-163)+")")
+          .text("Professional")
+          .style("fill", "#ffc100");
+
+        svg.append("text") // an invisible group element
+          .attr("text-anchor", "middle")
+          .attr("class", "occ_labels")
+          .attr("transform", "translate("+ (svg_w/2-43) +","+(svg_h-padding-131)+")")
+          .text("Non-Professional")
+          .style("fill", "#19a0e1");
 
 
 
