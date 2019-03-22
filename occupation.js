@@ -22,8 +22,8 @@
             console.log('insanity')
       // setting up dynamic x and y scales
       var xScale = d3.scaleLinear()
-              .domain([d3.min(scatter_data, function(d) { return d.weekly_earn;})-100,
-                      d3.max(scatter_data, function(d) { return d.weekly_earn;})+100])
+              .domain([d3.min(scatter_data, function(d) { return d.X__7;})-100,
+                      d3.max(scatter_data, function(d) { return d.X__5;})+100])
               .range([0, graph_w]);
 
       var yScale = d3.scaleBand()
@@ -126,14 +126,14 @@
         svg.append("text") // an invisible group element
           .attr("text-anchor", "middle")
           .attr("class", "occ_labels")
-          .attr("transform", "translate("+ (svg_w/2-20) +","+(svg_h-padding-163)+")")
+          .attr("transform", "translate("+ (svg_w/2+32) +","+(svg_h-padding-163)+")")
           .text("Professional")
           .style("fill", "#ffc100");
 
         svg.append("text") // an invisible group element
           .attr("text-anchor", "middle")
           .attr("class", "occ_labels")
-          .attr("transform", "translate("+ (svg_w/2-43) +","+(svg_h-padding-131)+")")
+          .attr("transform", "translate("+ (svg_w/2+5) +","+(svg_h-padding-128)+")")
           .text("Non-Professional")
           .style("fill", "#19a0e1");
 

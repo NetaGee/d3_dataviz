@@ -24,6 +24,9 @@ d3.select('button#occupation')
     // const currentClass = d3.select('.box')
     d3.select('.box')
       .attr('class', 'box showplot1');
+
+    //d3.selectAll transition
+
   })
 
 d3.select('button#gender')
@@ -31,9 +34,36 @@ d3.select('button#gender')
     // const currentClass = d3.select('.box')
     d3.select('.box')
       .attr('class', 'box showplot2');
-  })
-function testFunction(data){
-console.log(data);
-console.log("What is happening?")
-console.log(d3.event);
-};
+
+    d3.selectAll(".med_dot")
+    .transition().delay(1000).duration(2000)
+    .attr("r",2)
+    .style("fill", "gray");
+
+    d3.selectAll(".occ_labels")
+    .transition().delay(1000).duration(2000)
+    .style("opacity", 0);
+
+    d3.selectAll(".fem_dot")
+    .transition().delay(2000).duration(3000)
+    // .attr("cx", function(d) { return xScale(d.X__7);})
+    .style("opacity", 1);
+
+    d3.selectAll(".male_dot")
+    .transition().delay(2000).duration(3000)
+    .style("opacity", 1);
+    // .attr("r",2)
+    // .style("fill", "gray");
+      // .transition().delay(3000).duration(2000)
+      // .attr("r",2)
+      // .style("opacity", 0);
+
+    d3.selectAll(".gen_labels")
+    .transition().delay(2000).duration(3000)
+    .style("opacity", 1);
+
+    d3.selectAll(".gap")
+    .transition().delay(2000).duration(3000)
+    .style("opacity", 1);
+
+  });

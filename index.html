@@ -7,12 +7,24 @@
         <link rel="stylesheet" href="style.css">
     </head>
     <body style="text-align:center">
-      <h1 "font-family = verdana" > Being A Woman: More Expensive Than We Thought </h1>
+      <h1 > Being A Woman: More Expensive Than We Thought </h1>
+      <p id="byline"> By Neta Grossfeld</p>
+      <p id="hover"> <strong>Hover</strong> over</br>a dot for</br>more info!</p>
       <div class="box showplot1" style="text-align:center">
-        <button type="button" id = "occupation" >Occupation!</button>
-        <button type="button" id = "gender" >Gender!</button>
+        <p id="button"><button type="button" id = "gender">Click to view the Gender Wage Gap</button>
+      </br></br>
+        <button onclick="location.reload();" id = "refresh">Refresh</button></p>
         <div id="plot1" style="text-align:center"></div>
         <div id="plot2" style="text-align:center"></div>
+      </div>
+        <div style="text-align:right" class="sourcing">
+            <a href="https://www.bls.gov/cps/tables.htm">Source: Bureau of Labor Statistics, CPS Table 37</a>
+          </br>
+            <a href="https://github.com/NetaGee/d3_dataviz">Neta's Github Repo</a>
+          </br>
+            <a href="http://bl.ocks.org/d3noob/a22c42db65eb00d4e369">Citing Code for Tooltips</a>
+      </div>
+      <p id="occ_text">Professional occupations, those that require higher education, tend to have higher median weekly earnings than non-professional occupations. In this way, higher education can serve as a key to a financially successful career path. However, if you're a woman, your gender may limit your financial success regardless of your educational attainment. The gender wage gap, or the difference between the earnings of a female and male in the same occupation, exists in every major occupation type. Men are typically paid higher earnings even in female-dominated occupations such as healthcare, education, and sales and office <em>(size of dot corresponds to number of workers)</em>. Since a greater proportion of women have Associate's degrees and above, it may be that women who are more qualified than men in their occupation still earn less for discriminatory reasons.</p>
       </div>
 
       <script src="total.js"></script>
