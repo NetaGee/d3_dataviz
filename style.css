@@ -43,18 +43,18 @@ h1 {
 
 #occ_text {
   font: 14px Verdana;
-  width: 1050px;
+  width: 1300px;
   text-align: justify;
   position: absolute;
-  top: 155px;
-  right: 140px;
+  top: 100px;
+  left: 150px;
 }
 
 .sourcing {
   font: 13px Verdana;
   color: DimGray;
   position: absolute;
-  bottom: 10px;
+  bottom: 0px;
   right: 100px;
 }
 
@@ -85,13 +85,13 @@ button#refresh {
 #hover {
   font: 10px Verdana;
   position: absolute;
-  bottom: 506px;
-  right: 250px;
+  bottom: 565px;
+  right: 400px;
 }
 
 #byline {
   font: 15px Verdana;
   position: absolute;
-  top: 100px;
-  right: 400px;
+  top: 70px;
+  left: 750px;
 }
